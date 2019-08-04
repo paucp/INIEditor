@@ -10,7 +10,7 @@ namespace INIEditor
     }    
     public class Ini
     {        
-        private List<IniGroup> Groups;
+        public List<IniGroup> Groups;
         public Ini(string[] IniLines)
         {
             Groups = ParseIni(IniLines);
