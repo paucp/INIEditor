@@ -34,7 +34,7 @@ namespace INIEditor
             IniGroup Group = new IniGroup();
             Group.IniKeys = new Dictionary<string, string>();
             Group.Name = GetGroupName(IniLines[StartLine]);
-            for (int i = StartLine+1; i < LastLine - StartLine; ++i)
+            for (int i = StartLine+1; i < LastLine; ++i)
                 Group.IniKeys.Add(GetLineKeyAndValue(IniLines[i]));
             return Group;
         }
@@ -47,7 +47,7 @@ namespace INIEditor
         }           
         int FindGroupLine(string[] Lines, int StartLine)
         {
-            if (StartLine >= Lines.Length) return -1;
+            if (StartLine >= Lines.Length || StartLine < 0) return -1;
             for (int i = StartLine; i < Lines.Length; ++i)
                 if (Lines[i].StartsWith("[") && Lines[i].EndsWith("]"))
                     return i;
@@ -57,19 +57,16 @@ namespace INIEditor
         {
             string[] FormattedLines = new string[Lines.Length];
             for (int i = 0; i < Lines.Length; ++i)
-                if (!string.IsNullOrEmpty(Lines[i]) && !string.IsNullOrWhiteSpace(Lines[i])
-                    && !Lines[i].StartsWith("#") && !Lines[i].StartsWith("//") && !Lines[i].StartsWith("*"))
-                {
+                if (!string.IsNullOrEmpty(Lines[i]) && !string.IsNullOrWhiteSpace(Lines[i]))
                     FormattedLines[i] = RemoveWhiteSpaces(Lines[i]);
-                }
             return FormattedLines;
         }
         string RemoveWhiteSpaces(string Line)
         {
             StringBuilder CleanedLine = new StringBuilder();
-            for (int i = 0; i < Line.Length; ++i)
-                if (Line[i] != ' ') CleanedLine.Append(Line[i]);
-            return CleanedLine.ToString();
+            while (Line.EndsWith(" "))
+                Line.Remove(Line.Length);
+            return Line;
         }
         public string GetIniText()
         {
