@@ -44,7 +44,20 @@ namespace INIEditor
 
         private void Button2_Click(object sender, System.EventArgs e)
         {
+            EditForm editForm = new EditForm("", "");
+            editForm.ShowDialog();
+            //EDIT            
+        }
 
+        private void Button1_Click(object sender, System.EventArgs e)
+        {
+            NewForm newForm = new NewForm(Ini.Groups);
+            newForm.ShowDialog();
+            if (!newForm.Cancelled)
+            {
+                int Index = Ini.Groups.FindIndex(x => x.Name == newForm.Name);
+                Ini.Groups[Index].IniKeys.Add(new KeyValuePair<string, string>(newForm.KeyName, newForm.KeyValue));                
+            }
         }
     }
 }
