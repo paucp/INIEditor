@@ -62,8 +62,7 @@ namespace INIEditor
             return FormattedLines;
         }
         string RemoveWhiteSpaces(string Line)
-        {
-            StringBuilder CleanedLine = new StringBuilder();
+        {            
             while (Line.EndsWith(" "))
                 Line.Remove(Line.Length);
             return Line;

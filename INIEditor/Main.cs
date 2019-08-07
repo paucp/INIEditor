@@ -22,7 +22,30 @@ namespace INIEditor
                     listView1.Items.Add(new ListViewItem(new[] { Key.Key, Key.Value }, Group));
             }
         }
+        private int GetGroupIndex(string GroupName)    
+            => Ini.Groups.FindIndex(x => x.Name == GroupName);
+        private void AddKey(string Name, string Value, string GroupName)
+        {
 
+            int GroupIndex = GetGroupIndex(GroupName);
+            Ini.Groups[GroupIndex].IniKeys.Add(new KeyValuePair<string, string>(Name, Value));
+            listView1.Items.Add(new ListViewItem(new[] {Name, Value }, listView1.Groups[GroupIndex]));
+        }      
+        private void RemoveKey()
+        {            
+            int GroupIndex = GetGroupIndex(listView1.SelectedItems[0].Group.Name);
+            Ini.Groups[GroupIndex].IniKeys.Remove(listView1.SelectedItems[0].SubItems[0].ToString());
+            listView1.SelectedItems[0].Remove();
+            if (Ini.Groups[GroupIndex].IniKeys.Count == 0)
+                Ini.Groups.Remove(Ini.Groups[GroupIndex]);
+        }
+        private void EditKey(string NewKeyName, string NewKeyValue)
+        {
+            int GroupIndex = GetGroupIndex(listView1.SelectedItems[0].Group.Name);            
+            listView1.SelectedItems[0].SubItems[0].Text = NewKeyName;
+            listView1.SelectedItems[0].SubItems[0].Text = NewKeyValue;
+            //Ini.Groups[GroupIndex].IniKeys[listView1.SelectedItems[0].SubItems[0].Text] = new 
+        }
         private void OpenToolStripMenuItem_Click(object sender, System.EventArgs e)
         {            
             OpenFileDialog ofd = new OpenFileDialog();
@@ -32,6 +55,9 @@ namespace INIEditor
             IniIO = new IniIO(ofd.FileName);
             Ini = IniIO.ReadIni();
             LoadIniToListView();
+            button1.Enabled = true;
+            saveToolStripMenuItem.Enabled = true;
+            saveAsToolStripMenuItem.Enabled = true;            
         }
         private void SaveToolStripMenuItem_Click(object sender, System.EventArgs e)
             => IniIO.WriteIni(Ini);     
@@ -44,20 +70,27 @@ namespace INIEditor
 
         private void Button2_Click(object sender, System.EventArgs e)
         {
-            EditForm editForm = new EditForm("", "");
-            editForm.ShowDialog();
-            //EDIT            
+            EditForm EditForm = new EditForm("", "");
+            EditForm.KeyValue = listView1.SelectedItems[0].SubItems[0].ToString();
+            EditForm.KeyName = listView1.SelectedItems[0].SubItems[1].ToString();
+            EditForm.ShowDialog();
+            if (!EditForm.Cancelled)
+                EditKey(EditForm.KeyName, EditForm.KeyValue);                            
         }
-
         private void Button1_Click(object sender, System.EventArgs e)
         {
-            NewForm newForm = new NewForm(Ini.Groups);
-            newForm.ShowDialog();
-            if (!newForm.Cancelled)
-            {
-                int Index = Ini.Groups.FindIndex(x => x.Name == newForm.Name);
-                Ini.Groups[Index].IniKeys.Add(new KeyValuePair<string, string>(newForm.KeyName, newForm.KeyValue));                
-            }
+            NewForm NewForm = new NewForm(Ini.Groups);
+            NewForm.ShowDialog();
+            if (!NewForm.Cancelled)
+                AddKey(NewForm.KeyName, NewForm.KeyValue, NewForm.GroupName);         
+        }
+        private void Button3_Click(object sender, System.EventArgs e)                 
+            => RemoveKey();          
+        
+        private void ListView1_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            button2.Enabled = listView1.SelectedItems.Count != 0;
+            button3.Enabled = listView1.SelectedItems.Count != 0;           
         }
     }
 }
