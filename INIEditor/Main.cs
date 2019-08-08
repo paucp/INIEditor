@@ -8,6 +8,10 @@ namespace INIEditor
     {
         private Ini Ini;
         private IniIO IniIO;
+        private string LastSelectedKeyName;
+        private string LastSelectedKeyValue;
+        private string LastSelectedGroup;
+        private int LastSelectedGroupIndex;
         public Main()
         {
             InitializeComponent();
@@ -26,7 +30,6 @@ namespace INIEditor
             => Ini.Groups.FindIndex(x => x.Name == GroupName);
         private void AddKey(string Name, string Value, string GroupName)
         {
-
             int GroupIndex = GetGroupIndex(GroupName);
             Ini.Groups[GroupIndex].IniKeys.Add(new KeyValuePair<string, string>(Name, Value));
             listView1.Items.Add(new ListViewItem(new[] {Name, Value }, listView1.Groups[GroupIndex]));
@@ -40,11 +43,13 @@ namespace INIEditor
                 Ini.Groups.Remove(Ini.Groups[GroupIndex]);
         }
         private void EditKey(string NewKeyName, string NewKeyValue)
-        {
-            int GroupIndex = GetGroupIndex(listView1.SelectedItems[0].Group.Name);            
+        {         
+            Ini.Groups[LastSelectedGroupIndex].IniKeys.Remove(LastSelectedKeyName);
+            Ini.Groups[LastSelectedGroupIndex].IniKeys.Add(new KeyValuePair<string, string>(NewKeyName, NewKeyValue));
             listView1.SelectedItems[0].SubItems[0].Text = NewKeyName;
-            listView1.SelectedItems[0].SubItems[0].Text = NewKeyValue;
-            //Ini.Groups[GroupIndex].IniKeys[listView1.SelectedItems[0].SubItems[0].Text] = new 
+            listView1.SelectedItems[0].SubItems[1].Text = NewKeyValue;
+            //listView1.SelectedItems[0].SubItems[0] = new ListViewItem.ListViewSubItem(NewKeyName);
+
         }
         private void OpenToolStripMenuItem_Click(object sender, System.EventArgs e)
         {            
@@ -70,9 +75,7 @@ namespace INIEditor
 
         private void Button2_Click(object sender, System.EventArgs e)
         {
-            EditForm EditForm = new EditForm("", "");
-            EditForm.KeyValue = listView1.SelectedItems[0].SubItems[0].ToString();
-            EditForm.KeyName = listView1.SelectedItems[0].SubItems[1].ToString();
+            EditForm EditForm = new EditForm(LastSelectedKeyName, LastSelectedKeyValue);           
             EditForm.ShowDialog();
             if (!EditForm.Cancelled)
                 EditKey(EditForm.KeyName, EditForm.KeyValue);                            
@@ -90,7 +93,12 @@ namespace INIEditor
         private void ListView1_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             button2.Enabled = listView1.SelectedItems.Count != 0;
-            button3.Enabled = listView1.SelectedItems.Count != 0;           
+            button3.Enabled = listView1.SelectedItems.Count != 0;                   
+            LastSelectedKeyName = listView1.SelectedItems[0].SubItems[0].Text;
+            LastSelectedKeyValue = listView1.SelectedItems[0].SubItems[1].Text;
+            LastSelectedGroup = listView1.SelectedItems[0].Group.Header;
+            LastSelectedGroupIndex = GetGroupIndex(listView1.SelectedItems[0].Group.Header);
+
         }
     }
 }
