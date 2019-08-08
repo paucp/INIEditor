@@ -7,9 +7,9 @@ namespace INIEditor
     {
         public string Name;
         public IDictionary<string, string> IniKeys;
-    }    
+    }
     public class Ini
-    {        
+    {
         public List<IniGroup> Groups;
         public Ini(string[] IniLines)
         {
@@ -21,10 +21,11 @@ namespace INIEditor
             List<IniGroup> IniGroups = new List<IniGroup>();
             int GroupStartLine = 0;
             int GroupEndLine = FindGroupLine(IniLines, 1);
-            while(GroupStartLine != -1) {
+            while (GroupStartLine != -1)
+            {
                 IniGroups.Add(ParseGroup(IniLines, GroupStartLine, GroupEndLine));
                 GroupStartLine = FindGroupLine(IniLines, GroupEndLine);
-                GroupEndLine = FindGroupLine(IniLines, GroupStartLine+1);
+                GroupEndLine = FindGroupLine(IniLines, GroupStartLine + 1);
             }
             return IniGroups;
         }
@@ -34,7 +35,7 @@ namespace INIEditor
             IniGroup Group = new IniGroup();
             Group.IniKeys = new Dictionary<string, string>();
             Group.Name = GetGroupName(IniLines[StartLine]);
-            for (int i = StartLine+1; i < LastLine; ++i)
+            for (int i = StartLine + 1; i < LastLine; ++i)
                 Group.IniKeys.Add(GetLineKeyAndValue(IniLines[i]));
             return Group;
         }
@@ -44,7 +45,7 @@ namespace INIEditor
         {
             string[] Split = Line.Split('=');
             return new KeyValuePair<string, string>(Split[0], Split[1]);
-        }           
+        }
         int FindGroupLine(string[] Lines, int StartLine)
         {
             if (StartLine >= Lines.Length || StartLine < 0) return -1;
@@ -62,7 +63,7 @@ namespace INIEditor
             return FormattedLines;
         }
         string RemoveWhiteSpaces(string Line)
-        {            
+        {
             while (Line.EndsWith(" "))
                 Line.Remove(Line.Length);
             return Line;

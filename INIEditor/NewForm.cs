@@ -10,7 +10,7 @@ namespace INIEditor
         public string GroupName { get; set; }
         public bool Cancelled { get; set; }
         public NewForm(List<IniGroup> Groups)
-        {           
+        {
             this.Cancelled = true;
             InitializeComponent();
             foreach (IniGroup Group in Groups)
@@ -26,6 +26,6 @@ namespace INIEditor
             this.Close();
         }
         private void Button2_Click(object sender, System.EventArgs e)
-            => this.Close();    
+            => this.Close();
     }
 }
