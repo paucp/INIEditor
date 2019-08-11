@@ -12,12 +12,13 @@ Empty lines and foward whitespaces are ignored, any comments or format differenc
 
 Future updates will include:
 ```
-+ Comment support
-+ Search by key name, and key value
-v Group editing and deleting
-+ Support for creating INI files from scratch
-v Highligthing of added/edited/removed keys (green, yellow, red)
-+ Better UI feedback (messageboxes on save, warnings on closing etc)
+✓ Group editing and deleting
+✓ Highligthing of added/edited/removed keys
+✓ Search by key name
+✗ Search by key value
+✗ Comment support
+✗ Support for creating INI files from scratch
+✗ Better UI feedback (messageboxes on save, warnings on closing etc)
 ````
 
 UI image:
