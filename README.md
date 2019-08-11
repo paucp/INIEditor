@@ -14,9 +14,9 @@ Future updates will include:
 ```
 + Comment support
 + Search by key name, and key value
-+ Group editing and deleting
+v Group editing and deleting
 + Support for creating INI files from scratch
-+ Highligthing of added/edited/removed keys (green, yellow, red)
+v Highligthing of added/edited/removed keys (green, yellow, red)
 + Better UI feedback (messageboxes on save, warnings on closing etc)
 ````
 

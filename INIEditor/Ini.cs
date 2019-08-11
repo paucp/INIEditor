@@ -3,7 +3,7 @@ using System.Text;
 
 namespace INIEditor
 {
-    public struct IniGroup
+    public class IniGroup
     {
         public string Name;
         public IDictionary<string, string> IniKeys;
@@ -43,24 +43,26 @@ namespace INIEditor
            => Line.Substring(1, Line.IndexOf("]") - 1);
         KeyValuePair<string, string> GetLineKeyAndValue(string Line)
         {
-            string[] Split = Line.Split('=');
-            return new KeyValuePair<string, string>(Split[0], Split[1]);
+            int SeparatorIndex = Line.IndexOf('=');
+            string Name = Line.Substring(0, SeparatorIndex);
+            string Value = Line.Substring(SeparatorIndex+1, Line.Length - SeparatorIndex - 1);
+            return new KeyValuePair<string, string>(Name, Value);
         }
         int FindGroupLine(string[] Lines, int StartLine)
         {
             if (StartLine >= Lines.Length || StartLine < 0) return -1;
-            for (int i = StartLine; i < Lines.Length; ++i)
+            for (int i = StartLine; i < Lines.Length; ++i) 
                 if (Lines[i].StartsWith("[") && Lines[i].EndsWith("]"))
                     return i;
             return -1;
         }
         string[] RemoveInvalidLines(string[] Lines)
         {
-            string[] FormattedLines = new string[Lines.Length];
+            List<string> FormattedLines = new List<string>();
             for (int i = 0; i < Lines.Length; ++i)
                 if (!string.IsNullOrEmpty(Lines[i]) && !string.IsNullOrWhiteSpace(Lines[i]))
-                    FormattedLines[i] = RemoveWhiteSpaces(Lines[i]);
-            return FormattedLines;
+                    FormattedLines.Add(RemoveWhiteSpaces(Lines[i]));
+            return FormattedLines.ToArray();
         }
         string RemoveWhiteSpaces(string Line)
         {

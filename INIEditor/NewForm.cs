@@ -9,13 +9,21 @@ namespace INIEditor
         public string KeyValue { get; set; }
         public string GroupName { get; set; }
         public bool Cancelled { get; set; }
-        public NewForm(List<IniGroup> Groups)
+        public NewForm(List<IniGroup> Groups, bool NewGroup = false)
         {
             this.Cancelled = true;
             InitializeComponent();
-            foreach (IniGroup Group in Groups)
-                comboBox1.Items.Add(Group.Name);
-            comboBox1.Text = comboBox1.Items[0].ToString();
+            if (!NewGroup)
+            {
+                foreach (IniGroup Group in Groups)
+                    comboBox1.Items.Add(Group.Name);
+                comboBox1.Text = comboBox1.Items[0].ToString();
+            }
+            else
+            {
+                comboBox1.DropDownStyle = ComboBoxStyle.DropDown;
+                comboBox1.AutoCompleteSource = AutoCompleteSource.None;
+            }           
         }
         private void Button1_Click(object sender, System.EventArgs e)
         {
