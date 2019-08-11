@@ -14,6 +14,7 @@ namespace INIEditor
         private IniIO IniIO;
 
         private List<KeyValuePair<string, string>> ItemCopy;
+        private SearchManager SearchManager;
 
         private string LastSelectedKeyName;
         private string LastSelectedKeyValue;        
@@ -169,9 +170,11 @@ namespace INIEditor
             ofd.ShowDialog();
             IniIO = new IniIO(ofd.FileName);
             Ini = IniIO.ReadIni();           
-            LoadIniToListView();          
+            LoadIniToListView();
+            SearchManager = new SearchManager(ref ItemCopy);
             buttonNewE.Enabled = true;
             buttonNewG.Enabled = true;
+            buttonSearchNext.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
             saveAsToolStripMenuItem.Enabled = true;
         }
@@ -199,7 +202,40 @@ namespace INIEditor
         private void ButtonEditG_Click(object sender, System.EventArgs e)
             => EditSelectedGroup();
         private void ButtonDelelteG_Click(object sender, System.EventArgs e)
-            => DeleteSelectedGroup();                
+            => DeleteSelectedGroup();
+
+        #endregion
+
+        #region Search
+        private void SelectItem(int SearchResultIndex) {
+            if (SearchResultIndex != -1)
+            {
+                listView1.Select();
+                listView1.Focus();
+                listView1.Items[SearchResultIndex].Focused = true;
+                listView1.Items[SearchResultIndex].Selected = true;
+                listView1.Items[SearchResultIndex].EnsureVisible();
+            }
+        }
+        private void Search()
+        {
+            int SearchResultIndex = -1;
+            if (SearchManager.CanSearchLastString && SearchManager.LastSearchString == textBoxSearch.Text)
+                SearchResultIndex = SearchManager.SearchIndexWithLastString();
+            else SearchResultIndex = SearchManager.SearchIndex(textBoxSearch.Text);
+            SelectItem(SearchResultIndex);
+        }
+        private void ButtonSearchNext_Click(object sender, System.EventArgs e)
+            => Search();        
+        private void TextBoxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) Search();
+        }
+        private void ListView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && SearchManager.CanSearchLastString)
+                SelectItem(SearchManager.SearchIndexWithLastString());
+        }
         #endregion
     }
 }

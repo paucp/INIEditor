@@ -44,6 +44,8 @@
             this.buttonDelelteG = new System.Windows.Forms.Button();
             this.buttonEditG = new System.Windows.Forms.Button();
             this.buttonNewG = new System.Windows.Forms.Button();
+            this.textBoxSearch = new System.Windows.Forms.TextBox();
+            this.buttonSearchNext = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,7 +114,7 @@
             this.listView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(10, 38);
+            this.listView1.Location = new System.Drawing.Point(12, 58);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(616, 461);
@@ -120,6 +122,7 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.ListView1_SelectedIndexChanged);
+            this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView1_KeyDown);
             this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView1_MouseDoubleClick);
             // 
             // NameHeader
@@ -135,7 +138,7 @@
             // buttonNewE
             // 
             this.buttonNewE.Enabled = false;
-            this.buttonNewE.Location = new System.Drawing.Point(522, 505);
+            this.buttonNewE.Location = new System.Drawing.Point(524, 525);
             this.buttonNewE.Name = "buttonNewE";
             this.buttonNewE.Size = new System.Drawing.Size(104, 30);
             this.buttonNewE.TabIndex = 2;
@@ -146,7 +149,7 @@
             // buttonEditE
             // 
             this.buttonEditE.Enabled = false;
-            this.buttonEditE.Location = new System.Drawing.Point(435, 505);
+            this.buttonEditE.Location = new System.Drawing.Point(437, 525);
             this.buttonEditE.Name = "buttonEditE";
             this.buttonEditE.Size = new System.Drawing.Size(81, 30);
             this.buttonEditE.TabIndex = 3;
@@ -157,7 +160,7 @@
             // buttonDeleteE
             // 
             this.buttonDeleteE.Enabled = false;
-            this.buttonDeleteE.Location = new System.Drawing.Point(319, 505);
+            this.buttonDeleteE.Location = new System.Drawing.Point(321, 525);
             this.buttonDeleteE.Name = "buttonDeleteE";
             this.buttonDeleteE.Size = new System.Drawing.Size(110, 30);
             this.buttonDeleteE.TabIndex = 4;
@@ -168,7 +171,7 @@
             // buttonDelelteG
             // 
             this.buttonDelelteG.Enabled = false;
-            this.buttonDelelteG.Location = new System.Drawing.Point(319, 541);
+            this.buttonDelelteG.Location = new System.Drawing.Point(321, 561);
             this.buttonDelelteG.Name = "buttonDelelteG";
             this.buttonDelelteG.Size = new System.Drawing.Size(110, 30);
             this.buttonDelelteG.TabIndex = 7;
@@ -179,7 +182,7 @@
             // buttonEditG
             // 
             this.buttonEditG.Enabled = false;
-            this.buttonEditG.Location = new System.Drawing.Point(435, 541);
+            this.buttonEditG.Location = new System.Drawing.Point(437, 561);
             this.buttonEditG.Name = "buttonEditG";
             this.buttonEditG.Size = new System.Drawing.Size(81, 30);
             this.buttonEditG.TabIndex = 6;
@@ -190,7 +193,7 @@
             // buttonNewG
             // 
             this.buttonNewG.Enabled = false;
-            this.buttonNewG.Location = new System.Drawing.Point(522, 541);
+            this.buttonNewG.Location = new System.Drawing.Point(524, 561);
             this.buttonNewG.Name = "buttonNewG";
             this.buttonNewG.Size = new System.Drawing.Size(104, 30);
             this.buttonNewG.TabIndex = 5;
@@ -198,12 +201,34 @@
             this.buttonNewG.UseVisualStyleBackColor = true;
             this.buttonNewG.Click += new System.EventHandler(this.ButtonNewG_Click);
             // 
+            // textBoxSearch
+            // 
+            this.textBoxSearch.Location = new System.Drawing.Point(10, 27);
+            this.textBoxSearch.Name = "textBoxSearch";
+            this.textBoxSearch.Size = new System.Drawing.Size(519, 25);
+            this.textBoxSearch.TabIndex = 8;
+            this.textBoxSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxSearch_KeyDown);
+            // 
+            // buttonSearchNext
+            // 
+            this.buttonSearchNext.Enabled = false;
+            this.buttonSearchNext.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSearchNext.Location = new System.Drawing.Point(535, 27);
+            this.buttonSearchNext.Name = "buttonSearchNext";
+            this.buttonSearchNext.Size = new System.Drawing.Size(91, 25);
+            this.buttonSearchNext.TabIndex = 9;
+            this.buttonSearchNext.Text = "Search Next";
+            this.buttonSearchNext.UseVisualStyleBackColor = true;
+            this.buttonSearchNext.Click += new System.EventHandler(this.ButtonSearchNext_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(638, 584);
+            this.ClientSize = new System.Drawing.Size(638, 604);
+            this.Controls.Add(this.buttonSearchNext);
+            this.Controls.Add(this.textBoxSearch);
             this.Controls.Add(this.buttonDelelteG);
             this.Controls.Add(this.buttonEditG);
             this.Controls.Add(this.buttonNewG);
@@ -245,6 +270,8 @@
         private System.Windows.Forms.Button buttonDelelteG;
         private System.Windows.Forms.Button buttonEditG;
         private System.Windows.Forms.Button buttonNewG;
+        private System.Windows.Forms.TextBox textBoxSearch;
+        private System.Windows.Forms.Button buttonSearchNext;
     }
 }
 
