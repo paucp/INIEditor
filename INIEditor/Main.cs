@@ -13,34 +13,41 @@ namespace INIEditor
         private Ini Ini;
         private IniIO IniIO;
 
-        private List<KeyValuePair<string, string>> ItemCopy;
+        private List<IniKey> ItemCopy;
         private SearchManager SearchManager;
+        
+        private IniKey LastSelectedKey;
+        private string LastSelectedKeyName => LastSelectedKey.Name;
+        private string LastSelectedKeyValue => LastSelectedKey.Value;
+        private string LastSelectedComment => LastSelectedKey.Comment;
 
-        private string LastSelectedKeyName;
-        private string LastSelectedKeyValue;        
         private int LastSelectedGroupIndex;
         private int LastSelectedItemIndex;
+
+        private SearchPattern SearchPattern;
         public Main()
         {
-            InitializeComponent();
+            this.DoubleBuffered = true;
+
+            InitializeComponent();            
         }
 
         #region ListviewFunctions                
         private void UpdateLastSelectedItem()
-        {           
-            LastSelectedKeyName = listView1.SelectedItems[0].SubItems[0].Text;
-            LastSelectedKeyValue = listView1.SelectedItems[0].SubItems[1].Text;            
+        {          
             LastSelectedGroupIndex = GetGroupIndex(listView1.SelectedItems[0].Group.Header);
             LastSelectedItemIndex = listView1.SelectedIndices[0];
+            LastSelectedKey = ItemCopy[LastSelectedItemIndex];
         }
         private int GetGroupIndex(string GroupName)
             => Ini.Groups.FindIndex(x => x.Name == GroupName);
-        private void AddKeyToIni(string Name, string Value, string GroupName)
+        private void AddKeyToIni(string Name, string Value, string Comment, string GroupName)
         {
+            IniKey Key = new IniKey(Name, Value, Comment);
             int GroupIndex = GetGroupIndex(GroupName);
-            Ini.Groups[GroupIndex].IniKeys.Add(new KeyValuePair<string, string>(Name, Value));
+            Ini.Groups[GroupIndex].Keys.Add(Key);
             listView1.Items.Add(new ListViewItem(new[] { Name, Value }, listView1.Groups[GroupIndex]));
-            ItemCopy.Add(new KeyValuePair<string, string>(Name, Value));
+            ItemCopy.Add(Key);
         }
         private void AddNewKey()
         {
@@ -48,32 +55,35 @@ namespace INIEditor
             NewForm.ShowDialog();
             if (!NewForm.Cancelled)
             {
-                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.GroupName);
+                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.GroupName, NewForm.Comment);
                 listView1.Items[listView1.Items.Count - 1].BackColor = Green;
             }
         }
         private void EditSelectedKey()
         {
-            EditForm EditForm = new EditForm(LastSelectedKeyName, LastSelectedKeyValue);
+            EditForm EditForm = new EditForm(LastSelectedKeyName, LastSelectedKeyValue, LastSelectedComment);
             EditForm.ShowDialog();
             if (!EditForm.Cancelled)
             {
                 listView1.SelectedItems[0].BackColor = Yellow;
-                string NewKeyName = EditForm.KeyName;
-                string NewKeyValue = EditForm.KeyValue;
-                Ini.Groups[LastSelectedGroupIndex].IniKeys.Remove(LastSelectedKeyName);
-                Ini.Groups[LastSelectedGroupIndex].IniKeys.Add(new KeyValuePair<string, string>(NewKeyName, NewKeyValue));
-                listView1.SelectedItems[0].SubItems[0].Text = NewKeyName;
-                listView1.SelectedItems[0].SubItems[1].Text = NewKeyValue;
+                string NewName = EditForm.KeyName;
+                string NewValue = EditForm.KeyValue;
+                string NewComment = EditForm.Comment;
+                IniKey Key = new IniKey(NewName, NewValue, NewComment);
+                Ini.Groups[LastSelectedGroupIndex].Keys.Remove(ItemCopy[LastSelectedItemIndex]);
+                Ini.Groups[LastSelectedGroupIndex].Keys.Add(Key);
+                listView1.SelectedItems[0].SubItems[0].Text = NewName;
+                listView1.SelectedItems[0].SubItems[1].Text = NewValue;
+                listView1.SelectedItems[0].SubItems[2].Text = NewComment;
                 UpdateLastSelectedItem();
-                ItemCopy[LastSelectedItemIndex] = new KeyValuePair<string, string>(NewKeyName, NewKeyValue);
+                ItemCopy[LastSelectedItemIndex] = Key;
             }
         }
         private void RemoveSelectedKey()
         {
-            Ini.Groups[LastSelectedGroupIndex].IniKeys.Remove(LastSelectedKeyName);
+            Ini.Groups[LastSelectedGroupIndex].Keys.Remove(LastSelectedKey);
             listView1.SelectedItems[0].Remove();
-            if (Ini.Groups[LastSelectedGroupIndex].IniKeys.Count == 0)
+            if (Ini.Groups[LastSelectedGroupIndex].Keys.Count == 0)
                 Ini.Groups.Remove(Ini.Groups[LastSelectedGroupIndex]);
             ItemCopy.RemoveAt(LastSelectedItemIndex);
         }     
@@ -85,16 +95,16 @@ namespace INIEditor
             {
                 IniGroup NewGroup = new IniGroup();
                 NewGroup.Name = NewForm.GroupName;
-                NewGroup.IniKeys = new Dictionary<string, string>();
+                NewGroup.Keys = new List<IniKey>();
                 Ini.Groups.Add(NewGroup);
                 listView1.Groups.Add(new ListViewGroup(NewGroup.Name));
-                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.GroupName);
+                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.GroupName, NewForm.Comment);
                 listView1.Items[listView1.Items.Count - 1].BackColor = Green;              
             }
         }
         private void EditSelectedGroup()
         {
-            EditForm EditForm = new EditForm(Ini.Groups[LastSelectedGroupIndex].Name, "", true);
+            EditForm EditForm = new EditForm(Ini.Groups[LastSelectedGroupIndex].Name, "", "", true);
             EditForm.ShowDialog();
             if (!EditForm.Cancelled)
             {
@@ -122,25 +132,19 @@ namespace INIEditor
         {
             listView1.BeginUpdate();
             listView1.Items.Clear();
-            ItemCopy = new List<KeyValuePair<string, string>>();
+            ItemCopy = new List<IniKey>();
             for (int i = 0; i < Ini.Groups.Count; ++i)
             {
                 ListViewGroup Group = new ListViewGroup(Ini.Groups[i].Name);
                 listView1.Groups.Add(Group);
-                foreach (KeyValuePair<string, string> Key in Ini.Groups[i].IniKeys)
+                foreach (IniKey Key in Ini.Groups[i].Keys)
                 {
-                    listView1.Items.Add(new ListViewItem(new[] { Key.Key, Key.Value }, Group));
+                    listView1.Items.Add(new ListViewItem(new[] { Key.Name, Key.Value, Key.Comment }, Group));
                     ItemCopy.Add(Key);
                 }
             }
             listView1.EndUpdate();
-        }
-        private void BackupList()
-        {
-            ItemCopy = new List<KeyValuePair<string, string>>();
-            foreach (ListViewItem Item in listView1.Items)
-                ItemCopy.Add(new KeyValuePair<string, string>(Item.SubItems[0].Text, Item.SubItems[1].Text));
-        }
+        }       
         #endregion
 
         #region ListviewEvents
@@ -177,6 +181,9 @@ namespace INIEditor
             buttonSearchNext.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
             saveAsToolStripMenuItem.Enabled = true;
+            textBoxSearch.Enabled = true;
+            comboBox1.Enabled = true;
+            comboBox1.SelectedIndex = 0;
         }
         private void SaveToolStripMenuItem_Click(object sender, System.EventArgs e)
             => IniIO.WriteIni(Ini);
@@ -221,8 +228,8 @@ namespace INIEditor
         {
             int SearchResultIndex = -1;
             if (SearchManager.CanSearchLastString && SearchManager.LastSearchString == textBoxSearch.Text)
-                SearchResultIndex = SearchManager.SearchIndexWithLastString();
-            else SearchResultIndex = SearchManager.SearchIndex(textBoxSearch.Text);
+                SearchResultIndex = SearchManager.SearchIndexWithLastString(SearchPattern);
+            else SearchResultIndex = SearchManager.SearchIndex(textBoxSearch.Text, SearchPattern);
             SelectItem(SearchResultIndex);
         }
         private void ButtonSearchNext_Click(object sender, System.EventArgs e)
@@ -234,8 +241,17 @@ namespace INIEditor
         private void ListView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter && SearchManager.CanSearchLastString)
-                SelectItem(SearchManager.SearchIndexWithLastString());
+                SelectItem(SearchManager.SearchIndexWithLastString(SearchPattern));
+        }
+        private void ComboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (comboBox1.Text == "Name")
+                SearchPattern = SearchPattern.Name;
+            else if (comboBox1.Text == "Value")
+                SearchPattern = SearchPattern.Value;
+            else SearchPattern = SearchPattern.Comment;
         }
         #endregion
+
     }
 }

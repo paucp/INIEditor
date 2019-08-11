@@ -4,33 +4,47 @@ using System.Threading.Tasks;
 
 namespace INIEditor
 {
-    public class SearchManager
+    public enum SearchPattern
     {
+        Name, 
+        Value, 
+        Comment
+    }
+    public class SearchManager
+    {      
         public bool CanSearchLastString =>
             LastSearchString != null;
         public string LastSearchString { get; set; }
 
-        private List<KeyValuePair<string, string>> Entries;
+        private List<IniKey> Entries;
         private int ElapsedTime = 0;
         private int LastSearchIndex = -1;       
 
-        public SearchManager(ref List<KeyValuePair<string,string>> entries)
+        public SearchManager(ref List<IniKey> entries)
         {
-            Entries = entries;
+            Entries = entries;           
             Task.Run(() => AutoResetSearch());
         }
 
-        public int SearchIndexWithLastString()
-            => SearchIndex(LastSearchString);
+        public int SearchIndexWithLastString(SearchPattern SearchPattern)
+            => SearchIndex(LastSearchString, SearchPattern);
 
-        public int SearchIndex(string SearchText)
+        public int SearchIndex(string SearchText, SearchPattern SearchPattern)
         {
             if (SearchText == null)
                 return -1;
             SearchText = SearchText.ToLower();
+            if(SearchPattern == SearchPattern.Name) 
             LastSearchIndex = Entries.FindIndex
-                (LastSearchIndex + 1, x => SearchText.Contains(x.Key.ToLower())
-                || x.Key.ToLower().Contains(SearchText));
+                (LastSearchIndex + 1, x => SearchText.Contains(x.Name.ToLower())
+                || x.Name.ToLower().Contains(SearchText));
+            else if(SearchPattern == SearchPattern.Value)
+                LastSearchIndex = Entries.FindIndex
+               (LastSearchIndex + 1, x => SearchText.Contains(x.Value.ToLower())
+               || x.Value.ToLower().Contains(SearchText));
+            else LastSearchIndex = Entries.FindIndex
+               (LastSearchIndex + 1, x => x.Comment != "" && (SearchText.Contains(x.Comment.ToLower())
+               || x.Comment.ToLower().Contains(SearchText)));
             ElapsedTime = 0;
             LastSearchString = SearchText;
             return LastSearchIndex;

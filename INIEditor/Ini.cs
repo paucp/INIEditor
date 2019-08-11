@@ -3,10 +3,28 @@ using System.Text;
 
 namespace INIEditor
 {
+    public class IniKey
+    {
+        public string Name;
+        public string Value;
+        public string Comment;
+
+        public IniKey(string Name, string Value)
+        {
+            this.Name = Name;
+            this.Value = Value;
+        }
+        public IniKey(string Name, string Value, string Comment)
+        {
+            this.Name = Name;
+            this.Value = Value;
+            this.Comment = Comment;
+        }
+    }
     public class IniGroup
     {
         public string Name;
-        public IDictionary<string, string> IniKeys;
+        public List<IniKey> Keys;
     }
     public class Ini
     {
@@ -33,10 +51,21 @@ namespace INIEditor
         {
             if (LastLine == -1) LastLine = IniLines.Length;
             IniGroup Group = new IniGroup();
-            Group.IniKeys = new Dictionary<string, string>();
+            Group.Keys = new List<IniKey>();
             Group.Name = GetGroupName(IniLines[StartLine]);
+            string Comment = "";
             for (int i = StartLine + 1; i < LastLine; ++i)
-                Group.IniKeys.Add(GetLineKeyAndValue(IniLines[i]));
+            {
+                if (IniLines[i].StartsWith("#"))
+                    Comment = IniLines[i].Substring(1, IniLines[i].Length-1);
+                else
+                {                    
+                    KeyValuePair<string, string> Pair = GetLineKeyAndValue(IniLines[i]);                            
+                    Group.Keys.Add(new IniKey(Pair.Key, Pair.Value, Comment));
+                    if (Comment != "")
+                        Comment = "";
+                }                
+            }
             return Group;
         }
         string GetGroupName(string Line)
@@ -76,8 +105,11 @@ namespace INIEditor
             for (int i = 0; i < Groups.Count; ++i)
             {
                 IniText.AppendLine("[" + Groups[i].Name + "]");
-                foreach (KeyValuePair<string, string> Key in Groups[i].IniKeys)
-                    IniText.AppendLine(Key.Key + "=" + Key.Value);
+                foreach (IniKey Key in Groups[i].Keys)
+                {
+                    if (Key.Comment != "") IniText.AppendLine("#" + Key.Comment);
+                    IniText.AppendLine(Key.Name + "=" + Key.Value);
+                }
             }
             return IniText.ToString();
         }

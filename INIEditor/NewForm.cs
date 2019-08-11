@@ -7,6 +7,7 @@ namespace INIEditor
     {
         public string KeyName { get; set; }
         public string KeyValue { get; set; }
+        public string Comment { get; set; }
         public string GroupName { get; set; }
         public bool Cancelled { get; set; }
         public NewForm(List<IniGroup> Groups, bool NewGroup = false)
@@ -29,6 +30,7 @@ namespace INIEditor
         {
             this.KeyName = textBox1.Text;
             this.KeyValue = textBox2.Text;
+            this.Comment = textBox3.Text;
             this.GroupName = comboBox1.Text;
             this.Cancelled = false;
             this.Close();

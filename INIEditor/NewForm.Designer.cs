@@ -36,11 +36,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(297, 108);
+            this.button1.Location = new System.Drawing.Point(374, 139);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 35);
             this.button1.TabIndex = 0;
@@ -50,7 +52,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(196, 108);
+            this.button2.Location = new System.Drawing.Point(273, 139);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(95, 35);
             this.button2.TabIndex = 1;
@@ -60,16 +62,16 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(80, 46);
+            this.textBox1.Location = new System.Drawing.Point(89, 46);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(313, 25);
+            this.textBox1.Size = new System.Drawing.Size(381, 25);
             this.textBox1.TabIndex = 2;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(80, 77);
+            this.textBox2.Location = new System.Drawing.Point(89, 77);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(313, 25);
+            this.textBox2.Size = new System.Drawing.Size(381, 25);
             this.textBox2.TabIndex = 3;
             // 
             // label1
@@ -104,17 +106,35 @@
             this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(80, 15);
+            this.comboBox1.Location = new System.Drawing.Point(89, 15);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(313, 25);
+            this.comboBox1.Size = new System.Drawing.Size(381, 25);
             this.comboBox1.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(14, 116);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 17);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Comment";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(89, 108);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(381, 25);
+            this.textBox3.TabIndex = 8;
             // 
             // NewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(405, 154);
+            this.ClientSize = new System.Drawing.Size(482, 187);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -145,5 +165,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

@@ -46,6 +46,9 @@
             this.buttonNewG = new System.Windows.Forms.Button();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.buttonSearchNext = new System.Windows.Forms.Button();
+            this.CommentHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +58,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(638, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(901, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -74,7 +77,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
@@ -82,7 +85,7 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
@@ -90,19 +93,19 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.saveAsToolStripMenuItem.Text = "SaveAs";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(108, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -110,14 +113,16 @@
             // 
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.NameHeader,
-            this.ValueHeader});
+            this.ValueHeader,
+            this.CommentHeader});
             this.listView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView1.FullRowSelect = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(12, 58);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(616, 461);
+            this.listView1.Size = new System.Drawing.Size(877, 461);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -128,17 +133,17 @@
             // NameHeader
             // 
             this.NameHeader.Text = "Name";
-            this.NameHeader.Width = 250;
+            this.NameHeader.Width = 280;
             // 
             // ValueHeader
             // 
             this.ValueHeader.Text = "Value";
-            this.ValueHeader.Width = 340;
+            this.ValueHeader.Width = 300;
             // 
             // buttonNewE
             // 
             this.buttonNewE.Enabled = false;
-            this.buttonNewE.Location = new System.Drawing.Point(524, 525);
+            this.buttonNewE.Location = new System.Drawing.Point(785, 525);
             this.buttonNewE.Name = "buttonNewE";
             this.buttonNewE.Size = new System.Drawing.Size(104, 30);
             this.buttonNewE.TabIndex = 2;
@@ -149,7 +154,7 @@
             // buttonEditE
             // 
             this.buttonEditE.Enabled = false;
-            this.buttonEditE.Location = new System.Drawing.Point(437, 525);
+            this.buttonEditE.Location = new System.Drawing.Point(698, 525);
             this.buttonEditE.Name = "buttonEditE";
             this.buttonEditE.Size = new System.Drawing.Size(81, 30);
             this.buttonEditE.TabIndex = 3;
@@ -160,7 +165,7 @@
             // buttonDeleteE
             // 
             this.buttonDeleteE.Enabled = false;
-            this.buttonDeleteE.Location = new System.Drawing.Point(321, 525);
+            this.buttonDeleteE.Location = new System.Drawing.Point(582, 525);
             this.buttonDeleteE.Name = "buttonDeleteE";
             this.buttonDeleteE.Size = new System.Drawing.Size(110, 30);
             this.buttonDeleteE.TabIndex = 4;
@@ -171,7 +176,7 @@
             // buttonDelelteG
             // 
             this.buttonDelelteG.Enabled = false;
-            this.buttonDelelteG.Location = new System.Drawing.Point(321, 561);
+            this.buttonDelelteG.Location = new System.Drawing.Point(582, 561);
             this.buttonDelelteG.Name = "buttonDelelteG";
             this.buttonDelelteG.Size = new System.Drawing.Size(110, 30);
             this.buttonDelelteG.TabIndex = 7;
@@ -182,7 +187,7 @@
             // buttonEditG
             // 
             this.buttonEditG.Enabled = false;
-            this.buttonEditG.Location = new System.Drawing.Point(437, 561);
+            this.buttonEditG.Location = new System.Drawing.Point(698, 561);
             this.buttonEditG.Name = "buttonEditG";
             this.buttonEditG.Size = new System.Drawing.Size(81, 30);
             this.buttonEditG.TabIndex = 6;
@@ -193,7 +198,7 @@
             // buttonNewG
             // 
             this.buttonNewG.Enabled = false;
-            this.buttonNewG.Location = new System.Drawing.Point(524, 561);
+            this.buttonNewG.Location = new System.Drawing.Point(785, 561);
             this.buttonNewG.Name = "buttonNewG";
             this.buttonNewG.Size = new System.Drawing.Size(104, 30);
             this.buttonNewG.TabIndex = 5;
@@ -203,9 +208,10 @@
             // 
             // textBoxSearch
             // 
-            this.textBoxSearch.Location = new System.Drawing.Point(10, 27);
+            this.textBoxSearch.Enabled = false;
+            this.textBoxSearch.Location = new System.Drawing.Point(213, 27);
             this.textBoxSearch.Name = "textBoxSearch";
-            this.textBoxSearch.Size = new System.Drawing.Size(519, 25);
+            this.textBoxSearch.Size = new System.Drawing.Size(579, 25);
             this.textBoxSearch.TabIndex = 8;
             this.textBoxSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxSearch_KeyDown);
             // 
@@ -213,7 +219,7 @@
             // 
             this.buttonSearchNext.Enabled = false;
             this.buttonSearchNext.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSearchNext.Location = new System.Drawing.Point(535, 27);
+            this.buttonSearchNext.Location = new System.Drawing.Point(798, 27);
             this.buttonSearchNext.Name = "buttonSearchNext";
             this.buttonSearchNext.Size = new System.Drawing.Size(91, 25);
             this.buttonSearchNext.TabIndex = 9;
@@ -221,12 +227,43 @@
             this.buttonSearchNext.UseVisualStyleBackColor = true;
             this.buttonSearchNext.Click += new System.EventHandler(this.ButtonSearchNext_Click);
             // 
+            // CommentHeader
+            // 
+            this.CommentHeader.Text = "Comment";
+            this.CommentHeader.Width = 290;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Enabled = false;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Name",
+            "Value",
+            "Comment"});
+            this.comboBox1.Location = new System.Drawing.Point(86, 27);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 25);
+            this.comboBox1.TabIndex = 11;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(68, 17);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Search by:";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(638, 604);
+            this.ClientSize = new System.Drawing.Size(901, 604);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.buttonSearchNext);
             this.Controls.Add(this.textBoxSearch);
             this.Controls.Add(this.buttonDelelteG);
@@ -272,6 +309,9 @@
         private System.Windows.Forms.Button buttonNewG;
         private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.Button buttonSearchNext;
+        private System.Windows.Forms.ColumnHeader CommentHeader;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 
