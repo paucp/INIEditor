@@ -44,8 +44,8 @@ Future updates will include:
 ✓ Search by key value
 ✓ Search by comment
 ✓  Comment support
+✓ Better UI feedback (messageboxes on save, warnings on closing etc)
 ✗ Support for creating INI files from scratch
-✗ Better UI feedback (messageboxes on save, warnings on closing etc)
 ✗ Format errors and exception handling
 ````
 

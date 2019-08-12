@@ -7,6 +7,8 @@ namespace INIEditor
 {
     public partial class Main : Form
     {
+        private bool SaveFileUpdated = true;
+
         private Color Green = Color.FromArgb(100, 108, 198, 68);
         private Color Yellow = Color.FromArgb(100, 235, 206, 66);
 
@@ -55,9 +57,10 @@ namespace INIEditor
             NewForm.ShowDialog();
             if (!NewForm.Cancelled)
             {
-                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.GroupName, NewForm.Comment);
+                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.Comment, NewForm.GroupName);
                 listView1.Items[listView1.Items.Count - 1].BackColor = Green;
             }
+            SaveFileUpdated = false;
         }
         private void EditSelectedKey()
         {
@@ -74,10 +77,11 @@ namespace INIEditor
                 Ini.Groups[LastSelectedGroupIndex].Keys.Add(Key);
                 listView1.SelectedItems[0].SubItems[0].Text = NewName;
                 listView1.SelectedItems[0].SubItems[1].Text = NewValue;
-                listView1.SelectedItems[0].SubItems[2].Text = NewComment;
+                listView1.SelectedItems[0].SubItems[2].Text = NewComment;                
                 UpdateLastSelectedItem();
                 ItemCopy[LastSelectedItemIndex] = Key;
             }
+            SaveFileUpdated = false;
         }
         private void RemoveSelectedKey()
         {
@@ -86,6 +90,7 @@ namespace INIEditor
             if (Ini.Groups[LastSelectedGroupIndex].Keys.Count == 0)
                 Ini.Groups.Remove(Ini.Groups[LastSelectedGroupIndex]);
             ItemCopy.RemoveAt(LastSelectedItemIndex);
+            SaveFileUpdated = false;
         }     
         private void AddNewGroup()
         {
@@ -98,9 +103,10 @@ namespace INIEditor
                 NewGroup.Keys = new List<IniKey>();
                 Ini.Groups.Add(NewGroup);
                 listView1.Groups.Add(new ListViewGroup(NewGroup.Name));
-                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.GroupName, NewForm.Comment);
+                AddKeyToIni(NewForm.KeyName, NewForm.KeyValue, NewForm.Comment, NewForm.GroupName);
                 listView1.Items[listView1.Items.Count - 1].BackColor = Green;              
             }
+            SaveFileUpdated = false;
         }
         private void EditSelectedGroup()
         {
@@ -112,6 +118,7 @@ namespace INIEditor
                 listView1.Groups[LastSelectedGroupIndex].Name = EditForm.KeyName;
                 listView1.Groups[LastSelectedGroupIndex].Header = EditForm.KeyName;                
             }
+            SaveFileUpdated = false;
         }
         private void DeleteSelectedGroup()
         {
@@ -127,6 +134,7 @@ namespace INIEditor
                 Ini.Groups.RemoveAt(LastSelectedGroupIndex);
                 listView1.EndUpdate();
             }
+            SaveFileUpdated = false;
         }
         private void LoadIniToListView()
         {
@@ -186,12 +194,16 @@ namespace INIEditor
             comboBox1.SelectedIndex = 0;
         }
         private void SaveToolStripMenuItem_Click(object sender, System.EventArgs e)
-            => IniIO.WriteIni(Ini);
+        {
+            IniIO.WriteIni(Ini);
+            SaveFileUpdated = true;
+        }
         private void SaveAsToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.ShowDialog();
             IniIO.WriteAs(Ini, sfd.FileName);
+            SaveFileUpdated = true;
         }
         private void ExitToolStripMenuItem_Click(object sender, System.EventArgs e)
            => this.Close();
@@ -253,5 +265,13 @@ namespace INIEditor
         }
         #endregion
 
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(!SaveFileUpdated)
+            {
+                DialogResult Result = MessageBox.Show("Ini file not updated with lastest changes, do you want to continue?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                e.Cancel = Result == DialogResult.Cancel;             
+            }
+        }
     }
 }

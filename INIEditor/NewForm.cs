@@ -18,7 +18,7 @@ namespace INIEditor
             {
                 foreach (IniGroup Group in Groups)
                     comboBox1.Items.Add(Group.Name);
-                comboBox1.Text = comboBox1.Items[0].ToString();
+                comboBox1.SelectedIndex = 0;
             }
             else
             {
@@ -28,12 +28,17 @@ namespace INIEditor
         }
         private void Button1_Click(object sender, System.EventArgs e)
         {
-            this.KeyName = textBox1.Text;
-            this.KeyValue = textBox2.Text;
-            this.Comment = textBox3.Text;
-            this.GroupName = comboBox1.Text;
-            this.Cancelled = false;
-            this.Close();
+            if (textBox1.Text == "") MessageBox.Show("Name cant be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if (textBox2.Text == "") MessageBox.Show("Value can't be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if(comboBox1.Text == "") MessageBox.Show("Group can't be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else {
+                this.KeyName = textBox1.Text;
+                this.KeyValue = textBox2.Text;
+                this.Comment = textBox3.Text;
+                this.GroupName = comboBox1.Text;
+                this.Cancelled = false;
+                this.Close();
+            }
         }
         private void Button2_Click(object sender, System.EventArgs e)
             => this.Close();

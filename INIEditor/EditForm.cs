@@ -22,11 +22,16 @@ namespace INIEditor
         }
         private void Button1_Click(object sender, System.EventArgs e)
         {
-            this.KeyName = textBox1.Text;
-            this.KeyValue = textBox2.Text;
-            this.Comment = textBox3.Text;
-            this.Cancelled = false;
-            this.Close();
+            if (textBox1.Text == "") MessageBox.Show("Name cant be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if (textBox2.Text == "") MessageBox.Show("Value can't be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            {
+                this.KeyName = textBox1.Text;
+                this.KeyValue = textBox2.Text;
+                this.Comment = textBox3.Text;
+                this.Cancelled = false;
+                this.Close();
+            }
         }
         private void Button2_Click(object sender, System.EventArgs e)
             => this.Close();

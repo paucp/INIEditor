@@ -38,6 +38,7 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.NameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CommentHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonNewE = new System.Windows.Forms.Button();
             this.buttonEditE = new System.Windows.Forms.Button();
             this.buttonDeleteE = new System.Windows.Forms.Button();
@@ -46,7 +47,6 @@
             this.buttonNewG = new System.Windows.Forms.Button();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.buttonSearchNext = new System.Windows.Forms.Button();
-            this.CommentHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -140,6 +140,11 @@
             this.ValueHeader.Text = "Value";
             this.ValueHeader.Width = 300;
             // 
+            // CommentHeader
+            // 
+            this.CommentHeader.Text = "Comment";
+            this.CommentHeader.Width = 290;
+            // 
             // buttonNewE
             // 
             this.buttonNewE.Enabled = false;
@@ -227,11 +232,6 @@
             this.buttonSearchNext.UseVisualStyleBackColor = true;
             this.buttonSearchNext.Click += new System.EventHandler(this.ButtonSearchNext_Click);
             // 
-            // CommentHeader
-            // 
-            this.CommentHeader.Text = "Comment";
-            this.CommentHeader.Width = 290;
-            // 
             // comboBox1
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -282,6 +282,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "INIEditor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
