@@ -180,18 +180,21 @@ namespace INIEditor
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
             ofd.ShowDialog();
-            IniIO = new IniIO(ofd.FileName);
-            Ini = IniIO.ReadIni();           
-            LoadIniToListView();
-            SearchManager = new SearchManager(ref ItemCopy);
-            buttonNewE.Enabled = true;
-            buttonNewG.Enabled = true;
-            buttonSearchNext.Enabled = true;
-            saveToolStripMenuItem.Enabled = true;
-            saveAsToolStripMenuItem.Enabled = true;
-            textBoxSearch.Enabled = true;
-            comboBox1.Enabled = true;
-            comboBox1.SelectedIndex = 0;
+            if (ofd.FileName != "")
+            {
+                IniIO = new IniIO(ofd.FileName);
+                Ini = IniIO.ReadIni();
+                LoadIniToListView();
+                SearchManager = new SearchManager(ref ItemCopy);
+                buttonNewE.Enabled = true;
+                buttonNewG.Enabled = true;
+                buttonSearchNext.Enabled = true;
+                saveToolStripMenuItem.Enabled = true;
+                saveAsToolStripMenuItem.Enabled = true;
+                textBoxSearch.Enabled = true;
+                comboBox1.Enabled = true;
+                comboBox1.SelectedIndex = 0;
+            }
         }
         private void SaveToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
@@ -202,8 +205,11 @@ namespace INIEditor
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.ShowDialog();
-            IniIO.WriteAs(Ini, sfd.FileName);
-            SaveFileUpdated = true;
+            if (sfd.FileName != "")
+            {
+                IniIO.WriteAs(Ini, sfd.FileName);
+                SaveFileUpdated = true;
+            }
         }
         private void ExitToolStripMenuItem_Click(object sender, System.EventArgs e)
            => this.Close();
